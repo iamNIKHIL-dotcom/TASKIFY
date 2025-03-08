@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 const { conectToDatabase } = require("./db");
-require("dontenv").config();
+require("dotenv").config();
 
 //middleware
 app.use(express.json());
