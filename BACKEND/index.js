@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 const { connectToDatabase } = require("./db");
-// const todoRouter = require("./routes/todo");
+const todoRouter = require("./routes/todo");
 const userRouter = require("./routes/user");
 require("dotenv").config();
 
@@ -10,7 +10,7 @@ require("dotenv").config();
 app.use(express.json());
 
 //routes 
-// app.use("/todos",todoRouter);
+app.use("/todos",todoRouter);
 app.use("/user", userRouter);
 
 connectToDatabase().then(() => {
