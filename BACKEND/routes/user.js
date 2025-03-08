@@ -1,12 +1,14 @@
 const express = require("express")
 const jwt = require("jsonwebtoken");
-const { authenticateJwt } = require("../middleware/user");
-const { User } = require("./db")
+// const { authenticateJwt } = require("../middleware/user");
+const { User } = require("../db")
 const router = express.Router();
+
+const bcrypt = require("bcrypt")
 
 const SECRET = process.env.SECRET;
 
-router.post('/signup', async (res, res) => {
+router.post('/signup', async (req , res) => {
     const { username, password } = req.body;
     try{
         const user = await User.findOne({ username });
@@ -14,7 +16,10 @@ router.post('/signup', async (res, res) => {
             return res.statusCode(403).json({message : "user already exists"});
 
         }
-        const newUser = new User({ username, password });
+
+        const hashedPassword = await bcrypt.hash(password, 5);
+        const newUser = new User({ username, 
+            password : hashedPassword });
         await newUser.save(); // save user details into db
 
         /// new issue -- use bcrypt to hash password 
@@ -36,9 +41,17 @@ router.post('/signup', async (res, res) => {
 router.post("/signin", async (req, res) => {
     const { username, password } = req.body;
     try{
-        const user = await User.findOne({username, password })
 
-        if(user){
+        
+        const user = await User.findOne({username})
+        if (!user) {
+            return res.json({
+                message: "account doesn't exist or incorrect credentials"
+            });
+        }
+        
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if(passwordMatch){
             const token = jwt.sign({
                 userId : user._id
             }, SECRET, { expiresIn : "4h"});
