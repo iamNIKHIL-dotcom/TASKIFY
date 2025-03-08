@@ -1,11 +1,12 @@
 const express = require("express")
 const { Todo } = require("../db")
 
-const {authenticateJwt } = require("../middleware/user");
+const { authenticateJwt } = require("../middleware/user");
 
 
 
 const router = express.Router();
+router.use(express.json())
 router.use(authenticateJwt)
 
 
