@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-require('dontenv').config()
+require("dotenv").config()
 
 const connectToDatabase = async ()=>{
     try{
-        await mongooose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("database connected");
 
     }catch(error){
