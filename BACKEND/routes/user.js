@@ -4,6 +4,7 @@ const { authenticateJwt } = require("../middleware/user");
 const { User } = require("../db")
 const router = express.Router();
 
+
 const bcrypt = require("bcrypt")
 
 const SECRET = process.env.SECRET;

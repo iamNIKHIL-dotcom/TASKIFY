@@ -1,0 +1,17 @@
+{
+  "name": "taskify",
+  "version": "1.0.0",
+  "description": "Todo application with React frontend and Express backend",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "cd BACKEND && npm start",
+    "start:frontend": "cd FRONTEND && npm run dev",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
