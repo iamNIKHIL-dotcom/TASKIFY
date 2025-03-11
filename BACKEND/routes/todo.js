@@ -89,4 +89,31 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+router.delete("/:id", async (req, res) => {
+    // Delete todo
+    const { id } = req.params;
+    
+    try {
+        const result = await Todo.deleteOne({
+            _id: id,
+            userId: req.userId // Ensure the todo belongs to the user
+        });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({
+                msg: "Todo not found or you don't have permission to delete it"
+            });
+        }
+
+        res.json({
+            msg: "Todo deleted successfully"
+        });
+    } catch (error) {
+        console.error("Error deleting todo:", error);
+        res.status(500).json({
+            msg: "Error deleting todo"
+        });
+    }
+});
+
 module.exports = router;
